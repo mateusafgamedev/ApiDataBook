@@ -12,9 +12,29 @@ namespace ApiDataBook.Services.Autor
             _context = context;
         }
 
-        public Task<ResponseModel<AutorModel>> BuscarAutorPorId(int idAutor)
+        public async Task<ResponseModel<AutorModel>> BuscarAutorPorId(int idAutor)
         {
-            throw new NotImplementedException();
+            ResponseModel<AutorModel> resposta = new ResponseModel<AutorModel>();
+            try
+            {
+
+                var autor = await _context.Autores.FirstOrDefaultAsync(autorBanco => autorBanco.Id == idAutor);
+
+                if(autor == null)
+                {
+                    resposta.Mensagem = "Dados do autor não localizado ou não cadastrado!";
+                    return resposta;
+                }
+                resposta.Dados = autor;
+                resposta.Mensagem = "Dados do autor retornados com sucesso!";
+                return resposta;
+
+            } catch (Exception ex)
+            {
+                resposta.Mensagem = ex.Message;
+                resposta.Status = false;
+                return resposta;
+            }
         }
 
         public Task<ResponseModel<AutorModel>> BuscarAutorPorIdLivro(int idLivro)
