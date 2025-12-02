@@ -1,4 +1,5 @@
-﻿using ApiDataBook.Model;
+﻿using ApiDataBook.Dto.Autor;
+using ApiDataBook.Model;
 using ApiDataBook.Services.Autor;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +37,27 @@ namespace ApiDataBook.Controllers
         {
             var autor = await _autorInterface.BuscarAutorPorIdLivro(idLivro);
             return Ok(autor);
+        }
+
+        [HttpPost("CadastrarAutor")]
+        public async Task<ActionResult<ResponseModel<List<AutorModel>>>> CadastrarAutor(AutorCadastrarDto autorDto)
+        {
+            var autores = await _autorInterface.CadastrarDadosAutor(autorDto);
+            return Ok(autores);
+        }
+
+        [HttpDelete("DeletarAutor/{idAutor}")]
+        public async Task<ActionResult<ResponseModel<AutorModel>>> DeletarAutor(int idAutor)
+        {
+            var autor = await _autorInterface.DeletarAutor(idAutor);
+            return Ok(autor);
+        }
+
+        [HttpPut("EditarDadosAutor")]
+        public async Task<ActionResult<ResponseModel<List<AutorModel>>>> EditarDadosAutor(AutorEditarDto autorEditarDto)
+        {
+            var autores = await _autorInterface.EditarDadosAutor(autorEditarDto);
+            return Ok(autores);
         }
 
 
